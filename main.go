@@ -20,7 +20,10 @@ func main() {
 	if err := json.Unmarshal([]byte(os.Getenv("ROOT_KEYS")), &keys); err != nil {
 		log.Fatal("missing or invalid ROOT_KEYS:", err)
 	}
-	remote, err := tuf.HTTPRemoteStore(os.Getenv("REPO_URL"), nil)
+	opts := &tuf.HTTPRemoteOptions{
+		UserAgent: "cli-redirect/v1",
+	}
+	remote, err := tuf.HTTPRemoteStore(os.Getenv("REPO_URL"), opts)
 	if err != nil {
 		log.Fatal("error initializing remote store:", err)
 	}
