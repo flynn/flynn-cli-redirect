@@ -10,9 +10,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	tuf "github.com/flynn/go-tuf/client"
-	tufdata "github.com/flynn/go-tuf/data"
-	"github.com/jackc/pgx"
+	tuf "github.com/flynn/flynn-cli-redirect/Godeps/_workspace/src/github.com/flynn/go-tuf/client"
+	tufdata "github.com/flynn/flynn-cli-redirect/Godeps/_workspace/src/github.com/flynn/go-tuf/data"
+	"github.com/flynn/flynn-cli-redirect/Godeps/_workspace/src/github.com/jackc/pgx"
 )
 
 func main() {
