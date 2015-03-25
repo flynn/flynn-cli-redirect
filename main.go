@@ -76,6 +76,11 @@ func (r *redirector) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	}
 	w.Header().Set("Cache-Control", "no-cache")
 
+	if req.URL.Path == "/cli.ps1" {
+		r.powershell(w, req)
+		return
+	}
+
 	var plat string
 	if p := strings.TrimPrefix(strings.TrimPrefix(req.URL.Path, "/cli"), "/"); p == "" {
 		plat = guessPlat(req.UserAgent())
@@ -85,16 +90,23 @@ func (r *redirector) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "unknown platform", 404)
 		return
 	}
-	targets := r.Targets.Load().(tufdata.Files)
 
 	name := fmt.Sprintf("/flynn-%s.gz", plat)
-	f, ok := targets[name]
+	f, ok := r.targets()[name]
 	if !ok {
 		http.Error(w, "unknown target", 404)
 		return
 	}
 
-	http.Redirect(w, req, fmt.Sprintf("%s/targets/%x.%s", r.RepoURL, []byte(f.Hashes["sha512"]), name[1:]), 302)
+	http.Redirect(w, req, r.url(name, f), 302)
+}
+
+func (r *redirector) targets() tufdata.Files {
+	return r.Targets.Load().(tufdata.Files)
+}
+
+func (r *redirector) url(name string, file tufdata.FileMeta) string {
+	return fmt.Sprintf("%s/targets/%x.%s", r.RepoURL, []byte(file.Hashes["sha512"]), name[1:])
 }
 
 func (r *redirector) pgListener() {
