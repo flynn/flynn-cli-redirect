@@ -27,21 +27,21 @@ var psInstall = template.Must(template.New("install.ps1").Parse(`
 
 $url = "{{.URL}}"
 $checksum = "{{.Checksum}}"
-$destDir = "$env:APPDATA\flynn\bin"
+$destDir = "$Env:APPDATA\flynn\bin"
 $flynn = "$destDir\flynn.exe"
 
 # download the gzipped exe
-$gzipped = (new-object Net.WebClient).DownloadData($url)
+$gzipped = (New-Object Net.WebClient).DownloadData($url)
 
 # verify the checksum
 $sha512 = [Security.Cryptography.HashAlgorithm]::Create("SHA512")
-$actualChecksum = -join ($sha512.ComputeHash($gzipped) | ForEach { "{0:x2}" -f $_ })
+$actualChecksum = -Join ($sha512.ComputeHash($gzipped) | ForEach { "{0:x2}" -f $_ })
 If ($actualChecksum -ne $checksum) {
   Throw "Expected checksum to be $checksum but got $actualChecksum"
 }
 
 # create the destination directory
-New-Item -Path $destDir -ItemType directory -Force | out-null
+New-Item -Path $destDir -ItemType directory -Force | Out-Null
 
 # gunzip exe into destination
 $dest = New-Object System.IO.FileStream $flynn,
@@ -51,22 +51,22 @@ $dest = New-Object System.IO.FileStream $flynn,
 $exeStream = New-Object System.IO.Compression.GzipStream (New-Object System.IO.MemoryStream(,$gzipped)),
                                                          ([IO.Compression.CompressionMode]::Decompress)
 $buf = New-Object byte[](1024)
-while ($true) {
+While ($true) {
   $n = $exeStream.Read($buf, 0, 1024)
-  if ($n -le 0) { Break }
+  If ($n -le 0) { Break }
   $dest.Write($buf, 0, $n)
 }
 $dest.Close()
 
 # ensure added to path in registry
 $regPath = [Environment]::GetEnvironmentVariable("PATH", "User")
-if ($regPath -notcontains $destDir) {
+If ($regPath -notcontains $destDir) {
   [Environment]::SetEnvironmentVariable("PATH", $regPath + ";" + $destDir, "User")
 }
 
 # ensure added to path for current session
-if ($env:Path -notcontains $destDir) {
-  $env:Path += ";" + $destDir
+If ($Env:Path -notcontains $destDir) {
+  $Env:Path += ";" + $destDir
 }
 
 Write-Host "Flynn CLI installed. Run 'flynn help' to try it out."
