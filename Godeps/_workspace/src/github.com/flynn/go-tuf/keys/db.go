@@ -4,8 +4,8 @@ import (
 	"crypto/rand"
 	"errors"
 
-	"github.com/flynn/flynn-cli-redirect/Godeps/_workspace/src/github.com/agl/ed25519"
-	"github.com/flynn/flynn-cli-redirect/Godeps/_workspace/src/github.com/flynn/go-tuf/data"
+	"github.com/agl/ed25519"
+	"github.com/flynn/go-tuf/data"
 )
 
 var (

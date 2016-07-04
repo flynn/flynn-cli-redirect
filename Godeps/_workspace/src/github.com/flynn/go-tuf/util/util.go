@@ -10,10 +10,9 @@ import (
 	"hash"
 	"io"
 	"io/ioutil"
-	"path/filepath"
-	"strings"
+	"path"
 
-	"github.com/flynn/flynn-cli-redirect/Godeps/_workspace/src/github.com/flynn/go-tuf/data"
+	"github.com/flynn/go-tuf/data"
 )
 
 var ErrWrongLength = errors.New("wrong length")
@@ -104,21 +103,14 @@ func GenerateFileMeta(r io.Reader, hashAlgorithms ...string) (data.FileMeta, err
 	return m, nil
 }
 
-func NormalizeTarget(path string) string {
-	if path == "" {
-		return "/"
-	}
-	s := filepath.Clean(path)
-	if strings.HasPrefix(s, "/") {
-		return s
-	}
-	return "/" + s
+func NormalizeTarget(p string) string {
+	return path.Join("/", p)
 }
 
-func HashedPaths(path string, hashes data.Hashes) []string {
+func HashedPaths(p string, hashes data.Hashes) []string {
 	paths := make([]string, 0, len(hashes))
 	for _, hash := range hashes {
-		hashedPath := filepath.Join(filepath.Dir(path), hash.String()+"."+filepath.Base(path))
+		hashedPath := path.Join(path.Dir(p), hash.String()+"."+path.Base(p))
 		paths = append(paths, hashedPath)
 	}
 	return paths
