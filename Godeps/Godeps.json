@@ -1,6 +1,6 @@
 {
 	"ImportPath": "github.com/flynn/flynn-cli-redirect",
-	"GoVersion": "1.6",
+	"GoVersion": "go1.6",
 	"GodepVersion": "v74",
 	"Deps": [
 		{
