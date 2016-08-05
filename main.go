@@ -205,7 +205,7 @@ func (r *redirector) loadTUF() {
 }
 
 func guessArch(ua string) string {
-	if strings.Contains(ua, "i386") || strings.Contains(ua, "i686") {
+	if !isDarwin(ua) && (strings.Contains(ua, "i386") || strings.Contains(ua, "i686")) {
 		return "386"
 	}
 	return "amd64"
