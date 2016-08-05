@@ -6,10 +6,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/flynn/flynn-cli-redirect/Godeps/_workspace/src/github.com/agl/ed25519"
-	"github.com/flynn/flynn-cli-redirect/Godeps/_workspace/src/github.com/flynn/go-tuf/data"
-	"github.com/flynn/flynn-cli-redirect/Godeps/_workspace/src/github.com/flynn/go-tuf/keys"
-	"github.com/flynn/flynn-cli-redirect/Godeps/_workspace/src/github.com/tent/canonical-json-go"
+	"github.com/agl/ed25519"
+	"github.com/flynn/go-tuf/data"
+	"github.com/flynn/go-tuf/keys"
+	"github.com/tent/canonical-json-go"
 )
 
 var (
@@ -76,7 +76,7 @@ func VerifySignatures(s *data.Signed, role string, db *keys.DB) error {
 	valid := make(map[string]struct{})
 	var sigBytes [ed25519.SignatureSize]byte
 	for _, sig := range s.Signatures {
-		if sig.Method != "ed25519" {
+		if _, ok := Verifiers[sig.Method]; !ok {
 			return ErrWrongMethod
 		}
 		if len(sig.Signature) != len(sigBytes) {
@@ -92,8 +92,8 @@ func VerifySignatures(s *data.Signed, role string, db *keys.DB) error {
 		}
 
 		copy(sigBytes[:], sig.Signature)
-		if !ed25519.Verify(&key.Public, msg, &sigBytes) {
-			return ErrInvalid
+		if err := Verifiers[sig.Method].Verify(key.Public[:], msg, sigBytes[:]); err != nil {
+			return err
 		}
 		valid[sig.KeyID] = struct{}{}
 	}

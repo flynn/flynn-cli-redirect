@@ -10,9 +10,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	tuf "github.com/flynn/flynn-cli-redirect/Godeps/_workspace/src/github.com/flynn/go-tuf/client"
-	tufdata "github.com/flynn/flynn-cli-redirect/Godeps/_workspace/src/github.com/flynn/go-tuf/data"
-	"github.com/flynn/flynn-cli-redirect/Godeps/_workspace/src/github.com/jackc/pgx"
+	tuf "github.com/flynn/go-tuf/client"
+	tufdata "github.com/flynn/go-tuf/data"
+	"github.com/jackc/pgx"
 )
 
 func main() {
@@ -205,10 +205,10 @@ func (r *redirector) loadTUF() {
 }
 
 func guessArch(ua string) string {
-	if strings.Contains(ua, "x86_64") || strings.Contains(ua, "amd64") || isDarwin(ua) {
-		return "amd64"
+	if strings.Contains(ua, "i386") || strings.Contains(ua, "i686") {
+		return "386"
 	}
-	return "386"
+	return "amd64"
 }
 
 func isDarwin(ua string) bool {
