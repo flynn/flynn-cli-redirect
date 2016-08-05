@@ -1,7 +1,7 @@
 {
 	"ImportPath": "github.com/flynn/flynn-cli-redirect",
-	"GoVersion": "go1.6",
-	"GodepVersion": "v66",
+	"GoVersion": "1.6",
+	"GodepVersion": "v74",
 	"Deps": [
 		{
 			"ImportPath": "github.com/agl/ed25519",
@@ -13,37 +13,41 @@
 		},
 		{
 			"ImportPath": "github.com/boltdb/bolt",
-			"Comment": "v1.0",
-			"Rev": "aa66506030b376f848667d84d2596faa8a7099ea"
+			"Comment": "v1.2.1-15-g94c8db5",
+			"Rev": "94c8db596809690a3f7046fa83c7b0dda13a3222"
 		},
 		{
 			"ImportPath": "github.com/flynn/go-tuf/client",
-			"Rev": "8436e5cdafb92d8bc152302f73eebfd91161fb61"
+			"Rev": "82ed8591c2f9fa5170479d252ac4d81be49c6496"
 		},
 		{
 			"ImportPath": "github.com/flynn/go-tuf/data",
-			"Rev": "8436e5cdafb92d8bc152302f73eebfd91161fb61"
+			"Rev": "82ed8591c2f9fa5170479d252ac4d81be49c6496"
 		},
 		{
 			"ImportPath": "github.com/flynn/go-tuf/keys",
-			"Rev": "8436e5cdafb92d8bc152302f73eebfd91161fb61"
+			"Rev": "82ed8591c2f9fa5170479d252ac4d81be49c6496"
 		},
 		{
 			"ImportPath": "github.com/flynn/go-tuf/signed",
-			"Rev": "8436e5cdafb92d8bc152302f73eebfd91161fb61"
+			"Rev": "82ed8591c2f9fa5170479d252ac4d81be49c6496"
 		},
 		{
 			"ImportPath": "github.com/flynn/go-tuf/util",
-			"Rev": "8436e5cdafb92d8bc152302f73eebfd91161fb61"
+			"Rev": "82ed8591c2f9fa5170479d252ac4d81be49c6496"
 		},
 		{
 			"ImportPath": "github.com/jackc/pgx",
-			"Comment": "v2.8.1-39-g30cb421",
-			"Rev": "30cb421551a46adf91f5078bc6ea9fb18609ea0a"
+			"Comment": "v2.8.1-56-g09f1ca5",
+			"Rev": "09f1ca5b00c6a52248fa42461d3b251e690025e8"
 		},
 		{
 			"ImportPath": "github.com/tent/canonical-json-go",
 			"Rev": "96e4ba3a7613a1216cbd1badca4efe382adea337"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "a646d33e2ee3172a661fc09bca23bb4889a41bc8"
 		}
 	]
 }
